@@ -1,9 +1,15 @@
 #!/bin/bash
 
-DIR="$( dirname $0 )"
+INPUT_FILE=$1
+INPUT_DIR="$(dirname $INPUT_FILE)"
+
+SCRIPT_DIR="$( dirname $0 )"
+
+# identify y max
+y_max="$( ${SCRIPT_DIR}/axis-detection/axis.sh $INPUT_FILE )"
 
 # digitize plot
-node $DIR/plot-digitizer/plotDigitizer.js \
-    --json-reference-file=$DIR/plot-digitizer/wpd_config.json \
-    --input=$DIR/../data/ --output=$DIR/../ \
-    --y-max-override=140
+node $SCRIPT_DIR/plot-digitizer/plotDigitizer.js \
+    --json-reference-file=$SCRIPT_DIR/plot-digitizer/wpd_config.json \
+    --input=$INPUT_DIR --output=./ \
+    --y-max-override=$y_max
